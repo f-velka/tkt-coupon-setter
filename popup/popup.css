@@ -1,0 +1,24 @@
+body {
+    background-color: rgb(100, 100, 100);
+    color: white;
+    width: 230px;
+    font-family: "Verdana", "Meiryo", "Hiragino Kaku Gothic ProN", "sans-serif";
+}
+a {
+    color: #ffff00;
+}
+#ticket-name-input-area {
+    width: 95%;
+}
+#coupon-input-area {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#coupon-input {
+    width: 95%;
+    height: 300px;
+}
+#button-run-area {
+    display: flex;
+    justify-content: center;
+}

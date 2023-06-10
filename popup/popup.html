@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div>
+    <h2>使い方</h2><br>
+    1.<br>
+    telet で対象イベントの販売チケット設定を開く &#40;<a id="help-link-url" href="#">参考URL</a>&#41;。<br>
+
+    2.<br>
+    クーポンコードを登録するチケット名を<br>
+    入力し、入力欄に一行ごとに、<br>
+    <code>クーポンコード,割引後価格,発行枚数</code><br>
+    を入力する。<br>
+    3.<br>
+    「実行」をクリックする。
+    <br>
+  </div>
+  <br>
+
+  <div id="ticket-name-input-area">
+    <label>チケット名:<br>
+    </label><input id="ticket-name-input"><br>
+  </div>
+
+  <div id="coupon-input-area">
+    <label>クーポンコード情報:<br>
+    <textarea id="coupon-input" placeholder="例:&#10;coupon01,99,50&#10;coupon02,1,1"></textarea>
+  </div>
+
+  <div id="button-run-area">
+    <button id="button-run">実行</button>
+  </div>
+  <script src="../scripts/content.js"></script>
+</body>
+</html>

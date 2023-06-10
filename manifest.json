@@ -1,0 +1,11 @@
+{
+    "name": "Tkt Coupon Setter",
+    "description": "クーポン登録画面でクーポンコードを自動的に登録する拡張機能",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["activeTab", "scripting"],
+
+    "action": {
+      "default_popup": "popup/popup.html"
+    }
+}
