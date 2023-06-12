@@ -11,7 +11,7 @@
     telet で対象イベントの販売チケット設定を開く &#40;<a id="help-link-url" href="#">参考URL</a>&#41;。<br>
 
     2.<br>
-    クーポンコードを登録するチケット名を<br>
+    クーポンコードを登録するチケットの情報を<br>
     入力し、入力欄に一行ごとに、<br>
     <code>クーポンコード,割引後価格,発行枚数</code><br>
     を入力する。<br>
@@ -21,9 +21,22 @@
   </div>
   <br>
 
+  <div id="ticket-type-select-area">
+    <label>券種:<br></label>
+    <select id="ticket-type-select">
+      <option selected="selected"></option>
+      <option>指定席</option>
+      <option>自由席</option>
+      <option>配信</option>
+      <option>入場券</option>
+      <option>利用券</option>
+    </select>
+    <br>
+  </div>
+
   <div id="ticket-name-input-area">
-    <label>チケット名:<br>
-    </label><input id="ticket-name-input"><br>
+    <label>チケット名:<br></label>
+    <input id="ticket-name-input"><br>
   </div>
 
   <div id="coupon-input-area">

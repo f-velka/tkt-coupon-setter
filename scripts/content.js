@@ -25,6 +25,12 @@ class CouponInfo {
 document.getElementById("button-run").addEventListener("click", async () => {
     try {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        const ticketTypeSelect = document.getElementById("ticket-type-select");
+        const ticketType = ticketTypeSelect.options[ticketTypeSelect.selectedIndex].text;
+        if (!ticketType) {
+            alert("券種を入力してください。");
+            return;
+        }
         const ticketName = document.getElementById("ticket-name-input").value;
         if (!ticketName) {
             alert("チケット名を入力してください。");
@@ -39,7 +45,7 @@ document.getElementById("button-run").addEventListener("click", async () => {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           function: onRun,
-          args: [ticketName, couponInfos]
+          args: [ticketType, ticketName, couponInfos]
         });
     } catch (e) {
         if (e instanceof Error) {
@@ -78,10 +84,11 @@ function readCouponInfos(input) {
 
 /**
  * フィル実行
+ * @param {string} ticketType 券種
  * @param {string} ticketName チケット名
  * @param {CouponInfo[]} couponInfos クーポン情報の配列
  */
-async function onRun(ticketName, couponInfos) {
+async function onRun(ticketType, ticketName, couponInfos) {
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     try {
@@ -91,7 +98,10 @@ async function onRun(ticketName, couponInfos) {
         const ticketAreas = document.querySelectorAll("#control-panel .lists li");
         let targetTicketArea = null;
         for (const area of ticketAreas) {
-            if (area.querySelector(".ticket-form__ticket-name input").value === ticketName) {
+            const typeSelect = area.querySelector(".ticket-form__ticket-type select");
+            const type = typeSelect.options[typeSelect.selectedIndex].text;
+            const name = area.querySelector(".ticket-form__ticket-name input").value;
+            if (type === ticketType && name === ticketName) {
                 targetTicketArea = area;
                 break;
             }
@@ -177,15 +187,31 @@ async function onRun(ticketName, couponInfos) {
             throw new Error("入力欄とコードの数が一致しません。ページをリロードしてやり直してください。");
         }
 
+        var changeEvent = new Event('change', {
+            bubbles: true,
+        });
+        var inputEvent = new Event('input', {
+            bubbles: true,
+        });
         for (let i = startIndex; i < items.length; i++) {
             const couponInfo = validCouponInfos.shift();
             const newItem = items[i];
             const codeInput = newItem.querySelector(".detail-upper__code > input");
             const priceInput = newItem.querySelector(".detail-upper__price > input");
             const countInput = newItem.querySelector(".detail-upper__limit-num > input");
+
+            // 値を設定
             codeInput.value = couponInfo.code;
             priceInput.value = couponInfo.price.toString();
             countInput.value = couponInfo.count.toString();
+            // 内部の更新処理は input, change イベントでフックされる (と思う)
+            // (dispatch しないと入力していないとみなされる)
+            codeInput.dispatchEvent(inputEvent);
+            priceInput.dispatchEvent(inputEvent);
+            countInput.dispatchEvent(inputEvent);
+            codeInput.dispatchEvent(changeEvent);
+            priceInput.dispatchEvent(changeEvent);
+            countInput.dispatchEvent(changeEvent);
         }
 
         if (invalidCouponInfos.size > 0) {
